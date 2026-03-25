@@ -29,7 +29,17 @@ class ParserPDF:
         response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", chunk)])
         return response.content
 
-    # def clean_text(self, text: str) -> str:
+    def clean_text(self, text: str) -> str:
+        chunks = self.splitter.split_text(text)
+        cleaned_chunks = []
+
+        print(f"Cleaning {len(chunks)} chunks...")
+
+        for i, chunk in enumerate(chunks):
+            print(f"Cleaning chunk {i+1}/{len(chunks)}...")
+            cleaned_chunks.append(self._clean_chunk(chunk))
+
+        return "\n\n".join(cleaned_chunks)
 
 
 # if __name__ == "__main__":

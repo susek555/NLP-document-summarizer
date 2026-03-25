@@ -8,7 +8,7 @@ def main():
     llm = LLMFactory.get_llm(LLMEnum.LLAMA_GROK)
     parser = ParserPDF(llm)
     text = parser.read_markdown_from_file("test/test_document.pdf")
-    print(parser._clean_chunk(text[:4000]))
+    print(parser.clean_text(text))
 
 
 if __name__ == "__main__":
