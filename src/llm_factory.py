@@ -6,7 +6,7 @@ from langchain_groq import ChatGroq
 
 
 class LLMEnum(Enum):
-    LLAMA_GROK = "llama-3.1-70b-versatile (groq)"
+    LLAMA_GROK = "llama-3.3-70b-versatile"
 
 class LLMFactory:
     @staticmethod
