@@ -13,7 +13,7 @@ class LLMFactory:
     def get_llm(provider: LLMEnum) -> BaseChatModel:
         if provider == LLMEnum.LLAMA_GROK:
             return ChatGroq(
-                name=LLMEnum.LLAMA_GROK.value,
+                model=provider.value,
                 temperature=0,
                 api_key=os.getenv("GROQ_API_KEY")
             )
