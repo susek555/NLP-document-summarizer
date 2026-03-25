@@ -1,0 +1,7 @@
+[project]
+name = "nlp"
+version = "0.1.0"
+description = "document summarizer"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
