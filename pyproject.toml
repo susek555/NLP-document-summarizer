@@ -3,7 +3,7 @@ name = "nlp"
 version = "0.1.0"
 description = "document summarizer"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = []
 
 [dependency-groups]
@@ -19,7 +19,6 @@ target-version = "py312"
 fix = true
 show-fixes = true
 src = ["src"]
-exclude = ["src/**/test_*.py", "tests"]
 
 
 [tool.ruff.lint]
