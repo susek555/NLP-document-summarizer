@@ -5,6 +5,8 @@ description = "document summarizer"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "langchain>=1.2.13",
+    "langchain-groq>=1.1.2",
     "pymupdf4llm>=1.27.2.2",
 ]
 
