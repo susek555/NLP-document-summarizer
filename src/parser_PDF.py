@@ -4,9 +4,11 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
 class ParserPDF:
-    def __init__(self, llm: BaseChatModel):
+    def __init__(self, llm: BaseChatModel, chunk_size: int = 4000):
         self.llm = llm
         self.splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=400,
             separators=["\n#", "\n\n", "\n", " ", ""]
         )
 

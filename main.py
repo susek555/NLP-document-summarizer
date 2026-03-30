@@ -5,7 +5,8 @@ from src.parser_PDF import ParserPDF
 
 def main():
     load_dotenv()
-    llm = LLMFactory.get_llm(LLMEnum.LLAMA_GROK)
+    # llm = LLMFactory.get_llm(LLMEnum.LLAMA_GROK)
+    llm = LLMFactory.get_llm(LLMEnum.GEMINI_25_FLASH)
     parser = ParserPDF(llm)
     text = parser.read_markdown_from_file("test/test_document.pdf")
     cleaned = parser.clean_text(text)
