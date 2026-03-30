@@ -24,6 +24,18 @@ class ParserPDF:
             "2. Nie streszczaj!\n"
             "3. Napraw rozbite wyrazy (np. 'stresz- czenie' -> 'streszczenie').\n"
             "4. Zwróć tylko czysty tekst w formacie Markdown."
+            "5. Zachowaj język oryginału, czyli jeśli tekst był po angielsku, "
+            "dalej ma być po angielsku"
+            "6. Usuń spis literatury, wykaz źródeł."
+            "7. Usuń adnotacje zawarte w tekście (np. numery w środku tekstu)."
+            "8. Zwróc tylko surowy tekst, nie dopisuj NIC od siebie"
+            "9. Usuń fragmenty, które nie mają "
+            "przyczynowo-skutkowego powiązania z resztą tekstu"
+            "10. Twoja odpowiedź musi zawierać WYŁĄCZNIE przefiltrowany tekst. "
+            "Jeśli po filtracji nie pozostanie żaden tekst, "
+            "Twoja odpowiedź musi być całkowicie pusta (zero znaków). "
+            "Nie dodawaj żadnych wyjaśnień, "
+            "komentarzy ani metadanych o procesie czyszczenia."
         )
 
         response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", chunk)])
