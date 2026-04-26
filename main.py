@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from src.evaluate import calculate_rouge_scores
+from src.key_words_finder import KeyWordsFinder
 from src.llm_factory import LLMEnum, LLMFactory
 from src.parser_PDF import ParserPDF
 from src.summarizer.iterative_summarizer import IterativeSummarizer
@@ -44,18 +45,28 @@ def get_original_abstract():
 
 def calc_metrics():
     load_dotenv()
-    parser = ParserPDF(None)
-    original_abstract = parser.read(
+    original_abstract = ParserPDF.read(
         "test/test_document", TextObjectType.ORIGINAL_ABSTRACT_MD
     )
-    produced_abstract = parser.read(
+    produced_abstract = ParserPDF.read(
         "test/test_document", TextObjectType.PRODUCED_ABSTRACT_MD
     )
     calculate_rouge_scores("test/test_document", original_abstract, produced_abstract)
+
+
+def find_keywords():
+    load_dotenv()
+    llm = LLMFactory.get_llm(LLMEnum.GEMINI_25_FLASH)
+    finder = KeyWordsFinder(llm)
+    produced_abstract = ParserPDF.read(
+        "test/test_document", TextObjectType.PRODUCED_ABSTRACT_MD
+    )
+    finder.find_keywords("test/test_document", produced_abstract)
 
 
 if __name__ == "__main__":
     # clean_pdf()
     # summarize_text()
     # get_original_abstract()
-    calc_metrics()
+    # calc_metrics()
+    find_keywords()
