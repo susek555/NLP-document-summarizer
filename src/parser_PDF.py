@@ -1,6 +1,10 @@
+import re
+
 import pymupdf4llm
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from src.text_object_type import TextObjectType
 
 
 class ParserPDF:
@@ -11,9 +15,6 @@ class ParserPDF:
             chunk_overlap=400,
             separators=["\n#", "\n\n", "\n", " ", ""],
         )
-
-    def read_markdown_from_file(self, filepath: str) -> str:
-        return pymupdf4llm.to_markdown(filepath)
 
     def _clean_chunk(self, chunk: str) -> str:
         SYSTEM_PROMPT = (
@@ -43,6 +44,18 @@ class ParserPDF:
         response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", chunk)])
         return response.content
 
+    def _find_abstract_candidate(self, text: str) -> str:
+        pattern = r"(?i)(abstract|streszczenie)(.*?)(?=\n#|\n\*\*1\.|\n\*\*Introduction|\n\*\*Wstęp)"  # noqa: E501
+        match = re.search(pattern, text, re.DOTALL)
+
+        if match:
+            return match.group(0).strip()
+
+        return text[:3000]
+
+    def read_markdown_from_file(self, name: str) -> str:
+        return pymupdf4llm.to_markdown(f"{name}{TextObjectType.BASE_PDF.value}")
+
     def clean_text(self, text: str) -> str:
         chunks = self.splitter.split_text(text)
         cleaned_chunks = []
@@ -54,6 +67,28 @@ class ParserPDF:
             cleaned_chunks.append(self._clean_chunk(chunk))
 
         return "\n\n".join(cleaned_chunks)
+
+    def save(self, name: str, type: TextObjectType, text: str) -> None:
+        with open(f"{name}{type.value}", "w") as f:
+            f.write(text)
+
+    def read(self, name: str, type: TextObjectType) -> str:
+        with open(f"{name}{type.value}") as f:
+            return f.read()
+
+    def get_original_abstract(self, text: str) -> str:
+        SYSTEM_PROMPT = (
+            "Otrzymasz tekst, w którym zawarte jest streszczenie." \
+            "Twoim zadaniem jest zwrócić TYLKO to streszczenie." \
+            "Nie dodawaj żadnego wprowadzenia ani nic od siebie," \
+            "odpowiedź ma zawierać TYLKO I WYŁĄCZNIE niezmieniony tekst abstraktu" \
+            "w oryginalnym jego języku."
+        )
+
+        candidate = self._find_abstract_candidate(text)
+        response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", candidate)])
+        return response.content
+
 
 
 # if __name__ == "__main__":
