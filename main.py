@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from src.evaluate import calculate_rouge_scores
 from src.llm_factory import LLMEnum, LLMFactory
 from src.parser_PDF import ParserPDF
 from src.summarizer.iterative_summarizer import IterativeSummarizer
@@ -41,7 +42,20 @@ def get_original_abstract():
     )
 
 
+def calc_metrics():
+    load_dotenv()
+    parser = ParserPDF(None)
+    original_abstract = parser.read(
+        "test/test_document", TextObjectType.ORIGINAL_ABSTRACT_MD
+    )
+    produced_abstract = parser.read(
+        "test/test_document", TextObjectType.PRODUCED_ABSTRACT_MD
+    )
+    calculate_rouge_scores("test/test_document", original_abstract, produced_abstract)
+
+
 if __name__ == "__main__":
     # clean_pdf()
     # summarize_text()
-    get_original_abstract()
+    # get_original_abstract()
+    calc_metrics()
