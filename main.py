@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from src.evaluate import calculate_rouge_scores
+from src.evaluate import calculate_rouge_scores, calculate_all_keywords_metrics
 from src.key_words_finder import KeyWordsFinder
 from src.llm_factory import LLMEnum, LLMFactory
 from src.parser_PDF import ParserPDF
@@ -53,6 +53,17 @@ def calc_metrics():
     )
     calculate_rouge_scores("test/test_document", original_abstract, produced_abstract)
 
+    reference_keywords = ParserPDF.read(
+        "test/test_document", TextObjectType.KEY_WORDS_REFERENCE
+    )
+    stat_keywords = ParserPDF.read(
+        "test/test_document", TextObjectType.KEY_WORDS_STATISTICAL
+    )
+    llm_keywords = ParserPDF.read("test/test_document", TextObjectType.KEY_WORDS_LLM)
+    calculate_all_keywords_metrics(
+        "test/test_document", reference_keywords, stat_keywords, llm_keywords
+    )
+
 
 def find_keywords():
     load_dotenv()
@@ -68,5 +79,5 @@ if __name__ == "__main__":
     # clean_pdf()
     # summarize_text()
     # get_original_abstract()
-    # calc_metrics()
-    find_keywords()
+    calc_metrics()
+    # find_keywords()

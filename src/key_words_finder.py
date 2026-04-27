@@ -20,7 +20,7 @@ class KeyWordsFinder:
             "najbardziej wartościowych dla tekstu."
             "Nie dodawaj żadnego wprowadzenia ani nic od siebie,"
             "odpowiedź ma zawierać TYLKO I WYŁĄCZNIE 5 wybranych słów kluczowych"
-            "w oryginalnym jego języku."
+            "w oryginalnym języku streszczenia."
         )
 
         response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", text)])
@@ -31,7 +31,7 @@ class KeyWordsFinder:
         llm = self._get_llm_keywords(text)
 
         with open(f"{name}{TextObjectType.KEY_WORDS_STATISTICAL.value}", "w") as f:
-            f.write(" ".join(stat))
+            f.write("\n".join(stat))
 
         with open(f"{name}{TextObjectType.KEY_WORDS_LLM.value}", "w") as f:
             f.write(llm)

@@ -1,6 +1,5 @@
 import re
 
-import pymupdf
 import pymupdf4llm
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -19,7 +18,7 @@ class ParserPDF:
 
     @staticmethod
     def read_markdown_from_file(name: str) -> str:
-        return pymupdf4llm.to_markdown(f"{name}{TextObjectType.BASE_PDF.value[0]}")
+        return pymupdf4llm.to_markdown(f"{name}{TextObjectType.BASE_PDF.value}")
 
     @staticmethod
     def save(name: str, type: TextObjectType, text: str) -> None:
