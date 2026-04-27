@@ -20,16 +20,6 @@ class ParserPDF:
     def read_markdown_from_file(name: str) -> str:
         return pymupdf4llm.to_markdown(f"{name}{TextObjectType.BASE_PDF.value}")
 
-    @staticmethod
-    def save(name: str, type: TextObjectType, text: str) -> None:
-        with open(f"{name}{type.value}", "w") as f:
-            f.write(text)
-
-    @staticmethod
-    def read(name: str, type: TextObjectType) -> str:
-        with open(f"{name}{type.value}") as f:
-            return f.read()
-
     def _clean_chunk(self, chunk: str) -> str:
         SYSTEM_PROMPT = (
             "Jesteś ekspertem od czyszczenia danych tekstowych. "

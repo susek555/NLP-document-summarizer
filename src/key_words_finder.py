@@ -26,7 +26,7 @@ class KeyWordsFinder:
         response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", text)])
         return response.content
 
-    def find_keywords(self, name: str, text: str):
+    def find_and_save_keywords(self, name: str, text: str):
         stat = self._get_stat_keywords(text)
         llm = self._get_llm_keywords(text)
 

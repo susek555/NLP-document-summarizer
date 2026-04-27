@@ -20,11 +20,9 @@ class IterativeSummarizer(Summarizer):
             "6. Zachowaj język oryginału, czyli jeśli tekst był po angielsku, "
             "dalej ma być po angielsku\n"
             "7. Zwróc tylko surowy tekst, nie dopisuj NIC od siebie.\n"
-            "8. Twoja odpowiedź musi zawierać WYŁĄCZNIE przefiltrowany tekst. "
-            "Jeśli po filtracji nie pozostanie żaden tekst, "
-            "Twoja odpowiedź musi być całkowicie pusta (zero znaków). "
+            "8. Twoja odpowiedź musi zawierać WYŁĄCZNIE opracowane streszczenie. "
             "Nie dodawaj żadnych wyjaśnień, "
-            "komentarzy ani metadanych o procesie czyszczenia.\n"
+            "komentarzy ani metadanych o procesie budowy streszczenia.\n"
         )
 
         human_prompt = (
