@@ -46,16 +46,15 @@ class ParserPDF:
         )
 
         response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", chunk)])
-        return response.content
 
-    def _find_abstract_candidate(self, text: str) -> str:
-        pattern = r"(?i)(abstract|streszczenie)(.*?)(?=\n#|\n\*\*1\.|\n\*\*Introduction|\n\*\*Wstęp)"  # noqa: E501
-        match = re.search(pattern, text, re.DOTALL)
-
-        if match:
-            return match.group(0).strip()
-
-        return text[:3000]
+        if isinstance(response.content, list):
+            return "".join(
+                [
+                    part.get("text", "") if isinstance(part, dict) else str(part)
+                    for part in response.content
+                ]
+            )
+        return str(response.content)
 
     def clean_text(self, text: str) -> str:
         chunks = self.splitter.split_text(text)
@@ -65,22 +64,11 @@ class ParserPDF:
 
         for i, chunk in enumerate(chunks):
             print(f"Cleaning chunk {i + 1}/{len(chunks)}...")
-            cleaned_chunks.append(self._clean_chunk(chunk))
+            cleaned = self._clean_chunk(chunk)
+            if cleaned.strip():
+                cleaned_chunks.append(cleaned)
 
         return "\n\n".join(cleaned_chunks)
-
-    def get_original_abstract(self, text: str) -> str:
-        SYSTEM_PROMPT = (
-            "Otrzymasz tekst, w którym zawarte jest streszczenie."
-            "Twoim zadaniem jest zwrócić TYLKO to streszczenie."
-            "Nie dodawaj żadnego wprowadzenia ani nic od siebie,"
-            "odpowiedź ma zawierać TYLKO I WYŁĄCZNIE niezmieniony tekst abstraktu"
-            "w oryginalnym jego języku."
-        )
-
-        candidate = self._find_abstract_candidate(text)
-        response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", candidate)])
-        return response.content
 
 
 # if __name__ == "__main__":

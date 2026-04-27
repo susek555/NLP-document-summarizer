@@ -42,7 +42,7 @@ def summarize_text(
 def find_keywords(name: str, llm: BaseChatModel, abstract_type: TextObjectType):
     finder = KeyWordsFinder(llm)
     produced_abstract = read(name, abstract_type)
-    finder.find_and_save_keywords("test/test_document", produced_abstract)
+    finder.find_and_save_keywords(name, produced_abstract)
 
 
 def calc_metrics(name: str, abstract_type: TextObjectType):
@@ -122,7 +122,7 @@ def main():
     args = parser.parse_args()
 
     llm = None
-    if args.command in ["clean", "summarize", "keywords", "run-all"]:
+    if args.command in ["clean", "summarize", "keywords"]:
         llm = LLMFactory.get_llm(LLMEnum[args.llm])
 
     if args.command == "download":

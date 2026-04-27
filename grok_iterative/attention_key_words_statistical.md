@@ -1,0 +1,5 @@
+simple network architecture
+convolutional neural networks
+trained significantly faster
+transformer model generalizes
+convolutional layers

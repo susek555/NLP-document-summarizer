@@ -1,6 +1,7 @@
 from langchain_core.language_models.chat_models import BaseChatModel
 from multi_rake import Rake
 
+from src.helpers import get_text_content
 from src.text_object_type import TextObjectType
 
 
@@ -13,7 +14,7 @@ class KeyWordsFinder:
         keywords = rake.apply(text)
         return [kw[0] for kw in keywords[:5]]
 
-    def _get_llm_keywords(self, text):
+    def _get_llm_keywords(self, text) -> str:
         SYSTEM_PROMPT = (
             "Otrzymasz tekst streszczenia."
             "Twoim zadaniem jest wyznaczyć 5 słów kluczowych"
@@ -24,7 +25,7 @@ class KeyWordsFinder:
         )
 
         response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", text)])
-        return response.content
+        return get_text_content(response.content)
 
     def find_and_save_keywords(self, name: str, text: str):
         stat = self._get_stat_keywords(text)

@@ -8,7 +8,7 @@ from langchain_groq import ChatGroq
 
 class LLMEnum(Enum):
     LLAMA_GROK = "llama-3.3-70b-versatile"
-    GEMINI_25_FLASH = "gemini-2.5-flash"
+    GEMINI_31_FLASH_LITE = "gemini-3.1-flash-lite-preview"
 
 class LLMFactory:
     @staticmethod
@@ -19,7 +19,7 @@ class LLMFactory:
                 temperature=0,
                 api_key=os.getenv("GROQ_API_KEY")
             )
-        elif provider == LLMEnum.GEMINI_25_FLASH:
+        elif provider == LLMEnum.GEMINI_31_FLASH_LITE:
             return ChatGoogleGenerativeAI(
                 model=provider.value,
                 temperature=0,

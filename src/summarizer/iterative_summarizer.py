@@ -1,3 +1,4 @@
+from src.helpers import get_text_content
 from src.summarizer.summarizer import Summarizer
 
 
@@ -14,8 +15,11 @@ class IterativeSummarizer(Summarizer):
             "2. Nie zatracaj informacji zawartych w streszczeniu.\n"
             "3. Jeśli to pierwszy fragment tekstu,"
             "dotychczasowe streszczenie będzie puste.\n"
-            "4. Bądź konserwatywny jeśli chodzi o długość streszczenia, "
-            "czyli w każdej iteracji możesz dopisać maksymalnie 2 zdania.\n"
+            "4. LIMIT DŁUGOŚCI: Całe streszczenie musi "
+            "liczyć od 5 do MAKSYMALNIE 10 ZDAŃ. "
+            "Jeśli dodanie nowych informacji spowodowałoby "
+            "przekroczenie 10 zdań, musisz przeredagować "
+            "całość tak, aby zmieścić najważniejsze fakty w wyznaczonym limicie.\n"
             "5. Zwróć tylko czysty tekst w formacie Markdown.\n"
             "6. Zachowaj język oryginału, czyli jeśli tekst był po angielsku, "
             "dalej ma być po angielsku\n"
@@ -30,7 +34,7 @@ class IterativeSummarizer(Summarizer):
         )
 
         response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", human_prompt)])
-        return response.content
+        return get_text_content(response.content)
 
     def build_abstract(self, text: str) -> str:
         chunks = self.splitter.split_text(text)

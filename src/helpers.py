@@ -37,5 +37,14 @@ def read(name: str, type: TextObjectType) -> str:
         return f.read()
 
 
+def get_text_content(response_content) -> str:
+    if isinstance(response_content, list):
+        return "".join([
+            part.get("text", "") if isinstance(part, dict) else str(part)
+            for part in response_content
+        ])
+    return str(response_content)
+
+
 if __name__ == "__main__":
     download_and_save_arxiv_pdf("1706.03762", "test/test_document")

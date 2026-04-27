@@ -1,0 +1,5 @@
+english constituency parsing
+outperforming previous models
+experimental results confirm
+structural linguistic relationships
+training significantly faster

@@ -2,7 +2,7 @@ from enum import Enum
 
 
 class TextObjectType(Enum):
-    BASE_PDF = (".pdf",)
+    BASE_PDF = ".pdf"
     CLEANED = "_cleaned.md"
     ORIGINAL_ABSTRACT = "_original_abstract.md"
     PRODUCED_ABSTRACT_ITERATIVE = "_produced_abstract_iterative.md"

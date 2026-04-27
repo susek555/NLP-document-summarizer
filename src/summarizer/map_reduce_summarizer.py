@@ -1,3 +1,4 @@
+from src.helpers import get_text_content
 from src.summarizer.summarizer import Summarizer
 
 
@@ -27,7 +28,7 @@ class MapReduceSummarizer(Summarizer):
         )
 
         response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", chunk)])
-        return response.content
+        return get_text_content(response.content)
 
     def _reduce(self, partial_abstracts: list[str]):
         SYSTEM_PROMPT = (
@@ -57,7 +58,7 @@ class MapReduceSummarizer(Summarizer):
         response = self.llm.invoke(
             [("system", SYSTEM_PROMPT), ("human", "\n".join(partial_abstracts))]
         )
-        return response.content
+        return get_text_content(response.content)
 
     def build_abstract(self, text: str) -> str:
         chunks = self.splitter.split_text(text)
