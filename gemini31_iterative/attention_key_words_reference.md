@@ -2,4 +2,4 @@ Transformer
 Attention
 Self-attention
 Encoder
-Decoder
+Machine translation

@@ -1,5 +1,3 @@
-import re
-
 import pymupdf4llm
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -70,8 +68,3 @@ class ParserPDF:
 
         return "\n\n".join(cleaned_chunks)
 
-
-# if __name__ == "__main__":
-#     parser = ParserPDF()
-#     text = parser.read_markdown_from_file("test/test_document.pdf")
-#     print(text[:10000])

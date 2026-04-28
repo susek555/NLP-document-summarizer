@@ -29,7 +29,14 @@ def calculate_all_keywords_metrics(
     def process_input(raw_text):
         if not raw_text:
             return []
-        return [k.strip() for k in raw_text.splitlines() if k.strip()]
+        # Najpierw dzielimy po liniach
+        lines = raw_text.splitlines()
+        all_keywords = []
+        for line in lines:
+            # Każdą linię dodatkowo dzielimy po przecinku
+            parts = line.split(",")
+            all_keywords.extend([p.strip() for p in parts if p.strip()])
+        return all_keywords
 
     ref_list = process_input(reference_string)
     stat_list = process_input(stat_string)

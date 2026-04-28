@@ -1,5 +1,5 @@
 Transformer 
-tłumaczenie 
-uwagi 
-rekurencja 
-architektura
+Attention 
+Encoder 
+Decoder 
+Architecture

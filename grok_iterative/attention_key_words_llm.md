@@ -1,5 +1,5 @@
 Transformer 
 Attention 
-Neural 
-Translation 
-Parallelizable
+BLEU 
+Recurrent 
+Convolutional

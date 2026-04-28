@@ -1,15 +1,15 @@
 --- rouge1 ---
-Precision: 0.1739
-Recall:    0.1573
-F1-Score:  0.1652
+Precision: 0.4477
+Recall:    0.6011
+F1-Score:  0.5132
 
 --- rouge2 ---
-Precision: 0.0375
-Recall:    0.0339
-F1-Score:  0.0356
+Precision: 0.1807
+Recall:    0.2429
+F1-Score:  0.2072
 
 --- rougeL ---
-Precision: 0.1118
-Recall:    0.1011
-F1-Score:  0.1062
+Precision: 0.2008
+Recall:    0.2697
+F1-Score:  0.2302
 

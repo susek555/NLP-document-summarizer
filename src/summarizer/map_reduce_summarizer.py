@@ -20,14 +20,22 @@ class MapReduceSummarizer(Summarizer):
             "czyli nie przekraczaj 2-3 zdań.\n"
             "4. Zwróć tylko czysty tekst w formacie Markdown.\n"
             "5. Zachowaj język oryginału, czyli jeśli tekst był po angielsku, "
-            "dalej ma być po angielsku\n"
+            "dalej ma być po angielsku."
+            "Język tego prompta systemowego nie jest żadną wskazówką, "
+            "nie stosuj go jeśli nie występuje we fragmentach dokumentu.\n"
             "6. Zwróc tylko surowy tekst, nie dopisuj NIC od siebie.\n"
             "7. Twoja odpowiedź musi zawierać WYŁĄCZNIE wyprodukowane streszczenie. "
             "Nie dodawaj żadnych wyjaśnień, "
             "komentarzy ani metadanych o procesie czyszczenia.\n"
         )
 
-        response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", chunk)])
+        human_prompt = (
+            f"FRAGMENT TEKSTU DO STRESZCZENIA:\n{chunk}\n\n"
+            "REMINDER: Generate the summary in the SAME LANGUAGE as the fragment above. "
+            "If the text is in English, respond in English. If Polish, respond in Polish."
+        )
+
+        response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", human_prompt)])
         return get_text_content(response.content)
 
     def _reduce(self, partial_abstracts: list[str]):
@@ -48,16 +56,22 @@ class MapReduceSummarizer(Summarizer):
             "czyli nie przekraczaj 10 zdań.\n"
             "4. Zwróć tylko czysty tekst w formacie Markdown.\n"
             "5. Zachowaj język oryginału, czyli jeśli tekst był po angielsku, "
-            "dalej ma być po angielsku\n"
+            "dalej ma być po angielsku."
+            "Język tego prompta systemowego nie jest żadną wskazówką, "
+            "nie stosuj go jeśli nie występuje we fragmentach dokumentu.\n"
             "6. Zwróc tylko surowy tekst, nie dopisuj NIC od siebie.\n"
             "7. Twoja odpowiedź musi zawierać WYŁĄCZNIE wyprodukowane streszczenie. "
             "Nie dodawaj żadnych wyjaśnień, "
             "komentarzy ani metadanych o procesie czyszczenia.\n"
         )
 
-        response = self.llm.invoke(
-            [("system", SYSTEM_PROMPT), ("human", "\n".join(partial_abstracts))]
+        human_prompt = (
+            f"STRESZCZENIA CZĄSTKOWE:\n{'\n'.join(partial_abstracts)}\n\n"
+            "REMINDER: Generate the summary in the SAME LANGUAGE as the fragment above. "
+            "If the text is in English, respond in English. If Polish, respond in Polish."
         )
+
+        response = self.llm.invoke([("system", SYSTEM_PROMPT), ("human", human_prompt)])
         return get_text_content(response.content)
 
     def build_abstract(self, text: str) -> str:
